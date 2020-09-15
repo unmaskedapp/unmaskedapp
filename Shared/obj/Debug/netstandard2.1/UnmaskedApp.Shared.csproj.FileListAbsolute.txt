@@ -1,0 +1,9 @@
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\bin\Debug\netstandard2.1\UnmaskedApp.Shared.deps.json
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\bin\Debug\netstandard2.1\UnmaskedApp.Shared.dll
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\bin\Debug\netstandard2.1\UnmaskedApp.Shared.pdb
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\obj\Debug\netstandard2.1\UnmaskedApp.Shared.csprojAssemblyReference.cache
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\obj\Debug\netstandard2.1\UnmaskedApp.Shared.AssemblyInfoInputs.cache
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\obj\Debug\netstandard2.1\UnmaskedApp.Shared.AssemblyInfo.cs
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\obj\Debug\netstandard2.1\UnmaskedApp.Shared.csproj.CoreCompileInputs.cache
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\obj\Debug\netstandard2.1\UnmaskedApp.Shared.dll
+D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Shared\obj\Debug\netstandard2.1\UnmaskedApp.Shared.pdb

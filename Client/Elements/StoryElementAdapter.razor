@@ -1,0 +1,57 @@
+﻿@if (Element == null)
+{
+
+}
+else
+{
+
+    switch (Element.Type)
+    {
+        case StoryElement.Types.TEXT:
+            <RadzenTextArea Placeholder="Enter text here..." ReadOnly=@(!EditMode) @bind-Value="Element.Text" />
+            break;
+        case StoryElement.Types.IMAGE:
+            @if (EditMode)
+            {
+                <RadzenSlider Min="1" Max="20" Step="1" @bind-Value="Element.ImageNumber" />
+                <br />
+            }
+            <RadzenImage Path=@ImageNameForNumber(Element.ImageNumber) width="300px" />
+            break;
+        case StoryElement.Types.CUSTOM:
+            @if (EditMode)
+            {
+                <RadzenTextBox Placeholder="Custom image URL here..." @bind-Value="Element.Url" />
+                <br />
+            }
+            <RadzenImage Path=@Element.Url Style="width:300px" />
+            break;
+        case StoryElement.Types.EFFECT:
+            @if (EditMode)
+            {
+                <p>Sound Effect</p>
+                <RadzenDropDown TValue="StoryElement.Effects"
+                                Data="@(Enum.GetValues(typeof(StoryElement.Effects)))"
+                                @bind-Value="Element.Effect">
+                    <Template>
+                        @(Enum.GetName(typeof(StoryElement.Effects), context))
+                    </Template>
+                </RadzenDropDown>
+            }
+
+            break;
+    }
+}
+
+@code {
+    [Parameter]
+    public StoryElement Element { get; set; }
+
+    [Parameter]
+    public bool EditMode { get; set; }
+
+    string ImageNameForNumber(int i)
+    {
+        return "Images/" + i.ToString("00#") + ".jpg";
+    }
+}

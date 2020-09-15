@@ -1,0 +1,189 @@
+﻿@page "/tellstory"
+@using System
+@implements IDisposable
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+@inject IJSRuntime JSRuntime
+
+@*<RadzenDialog />
+<RadzenNotification />*@
+
+<h3>Tell your maskless adventure</h3>
+
+@if (items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div style="margin-left:1em;margin-right:1em">
+        @foreach (StoryElement item in items)
+        {
+            <RadzenLabel Text=@GetItemPositionText(item) />
+            <RadzenButton Icon="keyboard_arrow_up" Click="(async () => await MoveItemIndexBy(item, 1))" />
+            <RadzenButton Icon="keyboard_arrow_down" Click="(async () => await MoveItemIndexBy(item, -1))" />
+            <RadzenButton Icon="delete" Click="(async () => await DeleteItem(item))" />
+            <br />
+            <StoryElementAdapter EditMode="true" Element="item" />
+            <br />
+            <div style="height:20px"></div>
+        }
+    </div>
+}
+
+<RadzenButton Click="() => AddItemTypeToList(StoryElement.Types.TEXT)">Text</RadzenButton>
+<RadzenButton Click="() => AddItemTypeToList(StoryElement.Types.IMAGE)">Image</RadzenButton>
+<RadzenButton Click="() => AddItemTypeToList(StoryElement.Types.CUSTOM)">Custom Image</RadzenButton>
+<RadzenButton Click="() => AddItemTypeToList(StoryElement.Types.EFFECT)">Sound Effect</RadzenButton>
+
+<br />
+<div style="height:20px"></div>
+
+<RadzenButton Click="SaveStory">Save Story</RadzenButton>
+<RadzenButton Click="LoadStory">Load Story</RadzenButton>
+
+<br id="bottom" />
+
+@code {
+    bool requiresScrollToBottom = false;
+    string savedString;
+    List<StoryElement> items = new List<StoryElement>();
+
+    protected override void OnInitialized()
+    {
+        DialogService.OnClose += Close;
+    }
+
+    void IDisposable.Dispose()
+    {
+        DialogService.OnClose -= Close;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (requiresScrollToBottom)
+        {
+            await JSRuntime.InvokeAsync<bool>("scrollToElementId", "bottom");
+            requiresScrollToBottom = false;
+        }
+    }
+
+    void AddItemTypeToList(StoryElement.Types type)
+    {
+        requiresScrollToBottom = true;
+        items.Add(new StoryElement(type));
+    }
+
+    string GetItemPositionText(StoryElement item)
+    {
+        int position = items.IndexOf(item) + 1;
+        return position.ToString() + ".";
+    }
+
+    async Task MoveItemIndexBy(StoryElement item, int amount)
+    {
+        await Task.Delay(0);
+
+        int idx = items.IndexOf(item);
+        items.RemoveAt(idx);
+
+        int finalIndex = Math.Clamp(idx - amount, 0, items.Count);
+        items.Insert(finalIndex, item);
+    }
+
+    async Task DeleteItem(StoryElement item)
+    {
+        await Task.Delay(0);
+
+        items.Remove(item);
+    }
+
+    string SerializeStory()
+    {
+        System.Text.StringBuilder builder = new System.Text.StringBuilder();
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            string serializedObject = StoryElement.Serialize(items[i]);
+            if (i < items.Count - 1)
+                builder.AppendLine(serializedObject);
+            else
+                builder.Append(serializedObject);
+        }
+
+        string output = builder.ToString();
+
+        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(output));
+    }
+
+    void DeserializeTest(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Loading story failed", Duration = 4000 });
+            return;
+        }
+
+        string data = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(value));
+
+        items.Clear();
+        string[] dataArray = data.Split("\n");
+        items.AddRange(dataArray.Select(o => StoryElement.TryDeserialize(o)));
+    }
+
+    async Task SaveStory()
+    {
+        savedString = SerializeStory();
+        if (string.IsNullOrWhiteSpace(savedString))
+        {
+            NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Saving story failed", Duration = 4000 });
+            return;
+        }
+
+        await DialogService.OpenAsync("Save Story", ds =>
+            @<RadzenCard Style="padding: 20px; align-items:center;">
+                <p Style="margin-bottom: 10px;">Click and copy the code</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <RadzenTextBox ReadOnly="true" Value=@savedString />
+                        <div style="height:10px"></div>
+                        <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
+                    </div>
+                </div>
+            </RadzenCard>);
+    }
+
+
+    string ValueDialog;
+    async Task LoadStory() =>
+        await DialogService.OpenAsync("Load Story", ds =>
+        @<RadzenCard Style="padding: 20px; align-items:center;">
+            <p Style="margin-bottom: 10px;">Confirm?</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <RadzenTextBox Placeholder="Paste story code..." @bind-Value=@ValueDialog />
+                    <div style="height:10px"></div>
+                    <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
+                    <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
+                </div>
+            </div>
+        </RadzenCard>, new DialogOptions() { Height = "200" });
+
+
+    void Close(dynamic result)
+    {
+        if (result == true)
+        {
+            try
+            {
+                DeserializeTest(ValueDialog);
+            }
+            catch
+            {
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Invalid story code", Duration = 4000 });
+            }
+
+            StateHasChanged();
+        }
+    }
+}

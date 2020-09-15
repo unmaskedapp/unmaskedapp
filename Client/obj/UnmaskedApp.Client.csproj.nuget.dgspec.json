@@ -1,0 +1,152 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Client\\UnmaskedApp.Client.csproj": {}
+  },
+  "projects": {
+    "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Client\\UnmaskedApp.Client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Client\\UnmaskedApp.Client.csproj",
+        "projectName": "UnmaskedApp.Client",
+        "projectPath": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Client\\UnmaskedApp.Client.csproj",
+        "packagesPath": "C:\\Users\\lukaf\\.nuget\\packages\\",
+        "outputPath": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\lukaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "projectReferences": {
+              "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Shared\\UnmaskedApp.Shared.csproj": {
+                "projectPath": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Shared\\UnmaskedApp.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "dependencies": {
+            "Blazorise.Bootstrap": {
+              "target": "Package",
+              "version": "[0.9.1.2, )"
+            },
+            "Blazorise.Icons.FontAwesome": {
+              "target": "Package",
+              "version": "[0.9.1.2, )"
+            },
+            "Howler.Blazor": {
+              "target": "Package",
+              "version": "[0.9.3, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[3.2.1, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Build": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.2.1, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.2.1, )"
+            },
+            "Radzen.Blazor": {
+              "target": "Package",
+              "version": "[2.11.16, )"
+            },
+            "System.Net.Http.Json": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Shared\\UnmaskedApp.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Shared\\UnmaskedApp.Shared.csproj",
+        "projectName": "UnmaskedApp.Shared",
+        "projectPath": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Shared\\UnmaskedApp.Shared.csproj",
+        "packagesPath": "C:\\Users\\lukaf\\.nuget\\packages\\",
+        "outputPath": "D:\\Developer\\Projects\\Web\\UnmaskedApp\\UnmaskedApp\\Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\lukaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

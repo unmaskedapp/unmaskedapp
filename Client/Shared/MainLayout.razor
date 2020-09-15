@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+@inject UnmaskedApp.Client.Code.Events.MouseClickHandler MouseClickHandler
+
+<RadzenDialog />
+<RadzenNotification />
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div id="out" class="main" @onclick="() => MouseClickHandler.InvokeBodyClick()">
+    <div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>

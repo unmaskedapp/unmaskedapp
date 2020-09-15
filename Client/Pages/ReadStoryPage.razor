@@ -1,0 +1,136 @@
+﻿@page "/readstory"
+@page "/readstory/{text}"
+
+@using Howler.Blazor.Components
+@using System
+@implements IDisposable
+
+@inject UnmaskedApp.Client.Code.Events.MouseClickHandler MouseClickHandler
+@inject IHowl Howl
+@inject IHowlGlobal HowlGlobal
+@inject IJSRuntime JSRuntime
+
+<h3>ReadStoryPage</h3>
+
+@if (items.Count == 0)
+{
+    <RadzenTextBox Placeholder="Paste story code..." ReadOnly=@loadingStory ValueChanged="StoryCodeValueChanged" />
+    @if (!string.IsNullOrWhiteSpace(errorMessage))
+    {
+        <RadzenLabel>@errorMessage</RadzenLabel>
+    }
+}
+else
+{
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction:column; margin: 5px">
+        @for (int i = 0; i < items.Count; i++)
+        {
+            @if (i <= index)
+            {
+                <StoryElementAdapter Element="items[i]" />
+                <br />
+                @if (items[i].Type != StoryElement.Types.EFFECT)
+                {
+                    <div id=@("p" + i.ToString()) style="height:20px"></div>
+                }
+
+                @if (index == 0)
+                {
+                    <h3>Click to show next</h3>
+                    <br />
+                }
+                else if (i == index && items[i].Type == StoryElement.Types.EFFECT)
+                {
+                    Howl.Stop();
+                    Howl.Play("Sounds/" + StoryElement.SoundFileName(items[i].Effect));
+                    index += 1;
+                }
+            }
+        }
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+    bool loadingStory = false;
+    int index = 0;
+    string base64Data;
+    string errorMessage;
+    List<StoryElement> items = new List<StoryElement>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        MouseClickHandler.OnBodyClick += BodyClicked;
+
+        if (string.IsNullOrWhiteSpace(Text))
+        {
+            await StoryCodeValueChanged(Text);
+        }
+
+        var codecs = await HowlGlobal.GetCodecs();
+        @*var SupportedCodes = string.Join(", ", codecs);*@
+    }
+
+    void IDisposable.Dispose()
+    {
+        MouseClickHandler.OnBodyClick -= BodyClicked;
+    }
+
+    void BodyClicked()
+    {
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        index += 1;
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeAsync<bool>("scrollToElementId", ("p"+index.ToString()));
+    }
+
+    async Task StoryCodeValueChanged(string value)
+    {
+        loadingStory = true;
+
+        await Howl.Stop();
+
+        string decodedString;
+        try
+        {
+            decodedString = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(value));
+        }
+        catch
+        {
+            errorMessage = "Invalid story code.";
+            loadingStory = false;
+            return;
+        }
+
+        base64Data = decodedString;
+        items.Clear();
+
+        await Task.Delay(100);
+        loadingStory = false;
+
+        try
+        {
+            string[] dataArray = base64Data.Split("\n");
+            items.AddRange(dataArray.Select(o => StoryElement.TryDeserialize(o)));
+        }
+        catch
+        {
+            errorMessage = "Invalid story code.";
+            return;
+        }
+
+        @*await Howl.Play("Sounds/Encounter Metal Gear Solid Music.wav");*@
+    }
+}

@@ -1,0 +1,7 @@
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="/" Path="D:\Developer\Projects\Web\UnmaskedApp\UnmaskedApp\Client\bin\Debug\netstandard2.1\wwwroot\" />
+  <ContentRoot BasePath="_content/Blazorise" Path="C:\Users\lukaf\.nuget\packages\blazorise\0.9.1.2\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Blazorise.Bootstrap" Path="C:\Users\lukaf\.nuget\packages\blazorise.bootstrap\0.9.1.2\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Howler.Blazor" Path="C:\Users\lukaf\.nuget\packages\howler.blazor\0.9.3\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Radzen.Blazor" Path="C:\Users\lukaf\.nuget\packages\radzen.blazor\2.11.16\build\..\staticwebassets\" />
+</StaticWebAssets>

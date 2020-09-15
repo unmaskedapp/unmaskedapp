@@ -1,0 +1,24 @@
+﻿@page "/"
+
+@inject NavigationManager NavMan
+
+<h1>The Maskless</h1>
+
+<p>Share your unmasked adventures with the world.</p>
+
+<RadzenButton Click="NavigateToTellStory">Tell your story</RadzenButton>
+
+<RadzenButton Click="NavigateToViewOtherStories">View other story</RadzenButton>
+
+@code
+{
+    private void NavigateToTellStory()
+    {
+        NavMan.NavigateTo("/tellstory");
+    }
+
+    private void NavigateToViewOtherStories()
+    {
+        NavMan.NavigateTo("/readstory");
+    }
+}
