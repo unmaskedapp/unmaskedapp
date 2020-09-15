@@ -20,7 +20,7 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Publish
-      run: dotnet publish UnmaskedApp.Client.csproj --configuration Release
+      run: dotnet publish UnmaskedApp.sln --configuration Release
     - name: GitHub Pages action
       if: ${{ github.ref == 'refs/heads/master' }} 
       uses: peaceiris/actions-gh-pages@v3.6.1
